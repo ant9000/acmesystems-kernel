@@ -10,16 +10,12 @@ To compile the kernel, execute `kernel.sh` with a board name; any other argument
 
 For instance, use
 
-   ./kernel.sh roadrunner
+```./kernel.sh roadrunner```
 
-to compile a kernel for the RoadRunner board using the default configuration. The output will be available in
-
-   deploy/roadrunner/
-
-(you will need to copy everything here on the board filesystem).
+to compile a kernel for the RoadRunner board using the default configuration. The output will be available in `deploy/roadrunner/` (you will need to copy everything here on the board filesystem).
 
 If you need to customize your build, use
 
-   ./kernel.sh roadrunner menuconfig
+```./kernel.sh roadrunner menuconfig```
 
-(or xconfig, etc...), and then build again as before.
+(or `xconfig`, etc...), and then build again as before.
