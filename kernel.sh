@@ -39,15 +39,15 @@ if [ $CPU_COUNT -gt 0 ]; then
 fi
 
 # create default config for the board (unless it is already in place)
-if [ ! -d $BASE/build/$BOARD ]; then
-  mkdir -p $BASE/build/$BOARD
+if [ ! -d $BASE/build/$BOARD/out ]; then
+  mkdir -p $BASE/build/$BOARD/out
   cd $BASE/linux-src
   make mrproper
-  make O=$BASE/build/$BOARD $MAKE_ARGS acme-${BOARD}_defconfig
+  make O=$BASE/build/$BOARD/out $MAKE_ARGS acme-${BOARD}_defconfig
 fi
 
 # if we have other arguments, pass them to kernel build system - then exit
-cd $BASE/build/$BOARD
+cd $BASE/build/$BOARD/out
 if [ ! -z $1 ]; then
   make $MAKE_ARGS $*
   exit 0
@@ -90,3 +90,7 @@ if [ ! -z $DTB_BOARD ]; then
 else
   cat arch/arm/boot/zImage arch/arm/boot/dts/$DTB_KERNEL > $DEPLOY/boot/$IMG_BOARD
 fi
+
+make $MAKE_ARGS bindeb-pkg
+mkdir $DEPLOY/root
+cp ../linux-headers* ../linux-libc-dev* $DEPLOY/root/
