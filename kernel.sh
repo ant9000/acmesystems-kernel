@@ -65,7 +65,6 @@ make $MAKE_ARGS zImage modules $DTB_KERNEL
 DEPLOY=$BASE/deploy/$BOARD
 rm -rf $DEPLOY
 make $MAKE_ARGS modules_install INSTALL_MOD_PATH=$DEPLOY
-make $MAKE_ARGS firmware_install INSTALL_MOD_PATH=$DEPLOY
 mkdir $DEPLOY/boot/
 DTB_BOARD=$DTB_KERNEL
 IMG_BOARD=zImage

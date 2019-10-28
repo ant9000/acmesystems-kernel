@@ -17,12 +17,8 @@ if [ ! -f gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf.tar.xz ]; then
   wget http://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/arm-linux-gnueabihf/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf.tar.xz
 fi
 
-if [ ! -f linux-4.9.patch ]; then
-  wget https://raw.githubusercontent.com/AcmeSystems/acmepatches/master/linux-4.9.patch
-fi
-
-if [ ! -f linux-4.9.179.tar.xz ]; then
-  wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.9.179.tar.xz
+if [ ! -f linux-4.19.80.tar.xz ]; then
+  wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.80.tar.xz
 fi
 )
 
@@ -41,13 +37,13 @@ if [ ! -d gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf ]; then
 fi
 )
 
-if [ ! -d linux-4.9.179 ]; then
-  tar xvf downloads/linux-4.9.179.tar.xz
-  cd linux-4.9.179
-  patch -p1 < ../downloads/linux-4.9.patch
+if [ ! -d linux-4.19.80 ]; then
+  tar xvf downloads/linux-4.19.80.tar.xz
+  cd linux-4.19.80
+  patch -p1 < ../patches/linux-4.19.patch
   cd ..
 fi
 
 if [ ! -L linux-src ]; then
-  ln -s linux-4.9.179 linux-src
+  ln -s linux-4.19.80 linux-src
 fi
