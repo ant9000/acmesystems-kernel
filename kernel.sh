@@ -82,6 +82,9 @@ case "$BOARD" in
     DTB_BOARD=""
     IMG_BOARD=uImage
     ;;
+  roadrunner)
+    DTB_BOARD=acme-roadrunner.dtb
+    ;;
 esac
 if [ ! -z $DTB_BOARD ]; then
   cp arch/arm/boot/zImage $DEPLOY/boot/$IMG_BOARD
