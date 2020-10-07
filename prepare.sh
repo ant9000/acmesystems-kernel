@@ -54,4 +54,5 @@ if [ -L linux-src ]; then
   rm linux-src
 fi
 
-ln -sf ${KERNEL_DIR} linux-src
+rm linux-src
+ln -s ${KERNEL_DIR} linux-src

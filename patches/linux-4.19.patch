@@ -5313,11 +5313,14 @@ new file mode 100644
 index 0000000..b9a8166
 --- /dev/null
 +++ b/arch/arm/configs/acme-roadrunner_defconfig
-@@ -0,0 +1,233 @@
+@@ -0,0 +1,236 @@
 +# CONFIG_LOCALVERSION_AUTO is not set
 +# CONFIG_SWAP is not set
 +CONFIG_SYSVIPC=y
 +CONFIG_IRQ_DOMAIN_DEBUG=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_IKCONFIG=y
++CONFIG_IKCONFIG_PROC=y
 +CONFIG_LOG_BUF_SHIFT=14
 +CONFIG_CGROUPS=y
 +CONFIG_BLK_DEV_INITRD=y
@@ -5772,11 +5775,14 @@ new file mode 100644
 index 0000000..5520df4
 --- /dev/null
 +++ b/arch/arm/configs/acme-xterm-d2_defconfig
-@@ -0,0 +1,218 @@
+@@ -0,0 +1,221 @@
 +# CONFIG_LOCALVERSION_AUTO is not set
 +# CONFIG_SWAP is not set
 +CONFIG_SYSVIPC=y
 +CONFIG_IRQ_DOMAIN_DEBUG=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_IKCONFIG=y
++CONFIG_IKCONFIG_PROC=y
 +CONFIG_LOG_BUF_SHIFT=14
 +CONFIG_CGROUPS=y
 +CONFIG_BLK_DEV_INITRD=y
