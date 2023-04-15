@@ -7,29 +7,24 @@ cd $BASE
 # select board
 BOARD=$1
 if [ -z $BOARD ]; then
-  echo "Usage: `basename $0` (roadrunner|acqua|aria|arietta|xterm-01|foxg20) [...]"
+  echo "Usage: `basename $0` (roadrunner|acqua|aria|arietta) [...]"
   exit 1
 fi
 shift
 
 # select toolchain
-TOOLCHAIN=arm-linux-gnueabi-
 case "$BOARD" in
   roadrunner|acqua)
     TOOLCHAIN=arm-linux-gnueabihf-
     ;;
-  aria|arietta|xterm-01|foxg20)
+  aria|arietta)
+    TOOLCHAIN=arm-linux-gnueabi-
     ;;
   *)
     echo "Unsupported board '$BOARD'"
     exit 1
     ;;
 esac
-
-# prepend toolchain to path (unless compiler is already available)
-if [ ! `which ${TOOLCHAIN}-gcc` ]; then
-  export PATH=$PATH:$BASE/toolchains/gcc-linaro-4.9.4-2017.01-x86_64_${TOOLCHAIN%-}/bin/
-fi
 
 # compute default makefile arguments
 MAKE_ARGS="ARCH=arm CROSS_COMPILE=$TOOLCHAIN"
@@ -54,44 +49,15 @@ if [ ! -z $1 ]; then
 fi
 
 # compile kernel, modules and dtb
-DTB_KERNEL=acme-${BOARD}.dtb
-case "$BOARD" in
-  roadrunner)
-    DTB_KERNEL=acme-roadrunner-bertad2.dtb
-    ;;
-esac
-make $MAKE_ARGS zImage modules $DTB_KERNEL
+make $MAKE_ARGS zImage modules acme-${BOARD}.dtb
 
 DEPLOY=$BASE/deploy/$BOARD
 rm -rf $DEPLOY
 make $MAKE_ARGS modules_install INSTALL_MOD_PATH=$DEPLOY
 mkdir $DEPLOY/boot/
-DTB_BOARD=$DTB_KERNEL
-IMG_BOARD=zImage
-case "$BOARD" in
-  acqua)
-    DTB_BOARD=at91-sama5d3_acqua.dtb
-    ;;
-  aria)
-    DTB_BOARD=at91-ariag25.dtb
-    ;;
-  xterm-01)
-    DTB_BOARD=acme-arietta.dtb
-    ;;
-  foxg20)
-    DTB_BOARD=""
-    IMG_BOARD=uImage
-    ;;
-  roadrunner)
-    DTB_BOARD=acme-roadrunner.dtb
-    ;;
-esac
-if [ ! -z $DTB_BOARD ]; then
-  cp arch/arm/boot/zImage $DEPLOY/boot/$IMG_BOARD
-  cp arch/arm/boot/dts/$DTB_KERNEL $DEPLOY/boot/$DTB_BOARD
-else
-  cat arch/arm/boot/zImage arch/arm/boot/dts/$DTB_KERNEL > $DEPLOY/boot/$IMG_BOARD
-fi
+cp arch/arm/boot/zImage $DEPLOY/boot/
+cp arch/arm/boot/dts/acme-${BOARD}.dtb $DEPLOY/boot/
+wget https://www.acmesystems.it/www/compile_kernel_5_15/acme-${BOARD}_cmdline.txt -O $DEPLOY/boot/cmdline.txt
 
 make $MAKE_ARGS bindeb-pkg
 mkdir $DEPLOY/root
