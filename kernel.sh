@@ -61,4 +61,8 @@ wget https://www.acmesystems.it/www/compile_kernel_5_15/acme-${BOARD}_cmdline.tx
 
 make $MAKE_ARGS bindeb-pkg
 mkdir $DEPLOY/root
-cp ../linux-headers* ../linux-libc-dev* $DEPLOY/root/
+for x in image headers libc-dev
+do
+  deb=$(ls -t ../linux-${x}*.deb|head -1)
+  [ ! -z "$deb" ] && cp $deb $DEPLOY/root/
+done
