@@ -39,6 +39,9 @@ if [ ! -d $BASE/build/$BOARD/out ]; then
   cd $BASE/linux-src
   make mrproper
   make O=$BASE/build/$BOARD/out $MAKE_ARGS acme-${BOARD}_defconfig
+  cd $BASE/build/$BOARD/out
+  cat $BASE/patches/defconfig.extra >> .config
+  make $MAKE_ARGS olddefconfig
 fi
 
 # if we have other arguments, pass them to kernel build system - then exit
