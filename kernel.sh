@@ -12,22 +12,8 @@ if [ -z $BOARD ]; then
 fi
 shift
 
-# select toolchain
-case "$BOARD" in
-  foxd27|roadrunner|acqua)
-    TOOLCHAIN=arm-linux-gnueabihf-
-    ;;
-  aria|arietta)
-    TOOLCHAIN=arm-linux-gnueabi-
-    ;;
-  *)
-    echo "Unsupported board '$BOARD'"
-    exit 1
-    ;;
-esac
-
 # compute default makefile arguments
-MAKE_ARGS="ARCH=arm CROSS_COMPILE=$TOOLCHAIN"
+MAKE_ARGS="ARCH=arm CROSS_COMPILE=arm-none-eabi-"
 CPU_COUNT=`grep -c processor /proc/cpuinfo || true`
 if [ $CPU_COUNT -gt 0 ]; then
   MAKE_ARGS="-j$CPU_COUNT $MAKE_ARGS"

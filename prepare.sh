@@ -40,9 +40,6 @@ fi
 
 ln -s ${KERNEL_DIR} linux-src
 
-if [ ! `which arm-linux-gnueabi-gcc` ]; then
-  sudo apt install gcc-arm-linux-gnueabi g++-arm-linux-gnueabi
-fi
-if [ ! `which arm-linux-gnueabihf-gcc` ]; then
-  sudo apt install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
+if [ ! `which arm-none-eabi-gcc` ]; then
+  sudo apt install gcc-arm-none-eabi
 fi
