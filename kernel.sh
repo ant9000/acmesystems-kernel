@@ -7,14 +7,14 @@ cd $BASE
 # select board
 BOARD=$1
 if [ -z $BOARD ]; then
-  echo "Usage: `basename $0` (roadrunner|acqua|aria|arietta) [...]"
+  echo "Usage: `basename $0` (foxd27|roadrunner|acqua|aria|arietta) [...]"
   exit 1
 fi
 shift
 
 # select toolchain
 case "$BOARD" in
-  roadrunner|acqua)
+  foxd27|roadrunner|acqua)
     TOOLCHAIN=arm-linux-gnueabihf-
     ;;
   aria|arietta)
@@ -40,8 +40,8 @@ if [ ! -d $BASE/build/$BOARD/out ]; then
   make mrproper
   make O=$BASE/build/$BOARD/out $MAKE_ARGS acme-${BOARD}_defconfig
   cd $BASE/build/$BOARD/out
-  cat $BASE/patches/defconfig.extra >> .config
-  make $MAKE_ARGS olddefconfig
+# cat $BASE/patches/defconfig.extra >> .config
+# make $MAKE_ARGS olddefconfig
 fi
 
 # if we have other arguments, pass them to kernel build system - then exit
@@ -60,7 +60,10 @@ make $MAKE_ARGS modules_install INSTALL_MOD_PATH=$DEPLOY
 mkdir $DEPLOY/boot/
 cp arch/arm/boot/zImage $DEPLOY/boot/
 cp arch/arm/boot/dts/acme-${BOARD}.dtb $DEPLOY/boot/
-wget https://www.acmesystems.it/www/compile_kernel_5_15/acme-${BOARD}_cmdline.txt -O $DEPLOY/boot/cmdline.txt
+if [ "${BOARD}" == "foxd27" ]; then
+  mv $DEPLOY/boot/acme-${BOARD}.dtb $DEPLOY/boot/acme-roadrunner.dtb
+fi
+wget https://www.acmesystems.it/www/compile_kernel_6_1/acme-${BOARD}_cmdline.txt -O $DEPLOY/boot/cmdline.txt
 
 make $MAKE_ARGS bindeb-pkg
 mkdir $DEPLOY/root

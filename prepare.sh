@@ -5,7 +5,7 @@ BASE=$(dirname $(realpath $0))
 cd $BASE
 
 # use latest 5.15 LTS kernel
-KERNEL_URL=$(curl -s https://www.kernel.org/|perl -ne '/"(.*linux-5\.15.*?)".*tarball/ && print $1,$/')
+KERNEL_URL=$(curl -s https://www.kernel.org/|perl -ne '/"(.*linux-6\.1\..*?)".*tarball/ && print $1,$/')
 KERNEL_TGZ=`basename ${KERNEL_URL}`
 KERNEL_DIR=${KERNEL_TGZ%\.t*}
 
@@ -24,11 +24,11 @@ if [ ! -d ${KERNEL_DIR} ]; then
   tar xvf downloads/${KERNEL_TGZ}
   (
     cd ${KERNEL_DIR}
-    for board in roadrunner acqua aria arietta
+    for board in foxd27 roadrunner acqua aria arietta
     do
-      wget https://www.acmesystems.it/www/compile_kernel_5_15/acme-${board}_defconfig \
+      wget https://www.acmesystems.it/www/compile_kernel_6_1/acme-${board}_defconfig \
         -O arch/arm/configs/acme-${board}_defconfig
-      wget https://www.acmesystems.it/www/compile_kernel_5_15/acme-${board}.dts \
+      wget https://www.acmesystems.it/www/compile_kernel_6_1/acme-${board}.dts \
         -O arch/arm/boot/dts/acme-${board}.dts
     done
   )
