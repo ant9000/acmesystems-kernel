@@ -4,7 +4,7 @@ set -e
 BASE=$(dirname $(realpath $0))
 cd $BASE
 
-# use latest 5.15 LTS kernel
+# use latest 6.1 LTS kernel
 KERNEL_URL=$(curl -s https://www.kernel.org/|perl -ne '/"(.*linux-6\.1\..*?)".*tarball/ && print $1,$/')
 KERNEL_TGZ=`basename ${KERNEL_URL}`
 KERNEL_DIR=${KERNEL_TGZ%\.t*}
