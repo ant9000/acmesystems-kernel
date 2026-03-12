@@ -24,7 +24,6 @@ cpp -nostdinc \
   -I $KERNEL/include \
   -I $KERNEL/arch \
   -I $KERNEL/arch/arm/boot/dts/ \
-  -I $KERNEL/arch/arm/boot/dts/ti/omap/ \
   -undef -x assembler-with-cpp \
   $DTS $TMPFILE
 
